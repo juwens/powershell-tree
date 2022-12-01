@@ -56,7 +56,7 @@ Function Format-FileSize() {
     Else                   {""}
 }
 
-$fullPath = Join-Path $PSScriptRoot $Path
+$fullPath = Resolve-Path $Path
 
 Write-Host "./$((Get-Item $fullPath).Name)"
 
