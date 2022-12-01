@@ -1,21 +1,14 @@
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory=$true)]
-    [string]
-    $Path
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter()][switch]$ShowSize
 )
 
 function Out-Children {
     param (
-        [Parameter(Mandatory=$true)]
-        [string]
-        $FullPath,
-        [Parameter(Mandatory=$false)]
-        [string]
-        $Prefix,
-        [Parameter(Mandatory=$true)]
-        [bool]
-        $IsLastFolder
+        [Parameter(Mandatory=$true)][string]$FullPath,
+        [Parameter(Mandatory=$false)][string]$Prefix,
+        [Parameter(Mandatory=$true)][bool]$IsLastFolder
     )
 
     $items = (Get-ChildItem $FullPath)
@@ -41,17 +34,20 @@ function Out-Children {
             Write-Host "$Prefix" -NoNewline
             Write-Host "$inifix" -NoNewline
             Write-Host " $name"  -NoNewline
-            Write-Host " ($(Format-FileSize $item.length))"
+            if ($ShowSize) {
+                Write-Host " ($(Format-FileSize $item.length))" -NoNewline
+            }
+            Write-Host
         }
     }
 }
 
 Function Format-FileSize() {
     Param ([int64]$size)
-    If     ($size -gt 1TB) {[string]::Format("{0:0.0} TB", $size / 1TB)}
-    ElseIf ($size -gt 1GB) {[string]::Format("{0:0.0} GB", $size / 1GB)}
-    ElseIf ($size -gt 1MB) {[string]::Format("{0:0.0} MB", $size / 1MB)}
-    ElseIf ($size -gt 1KB) {[string]::Format("{0:0.0} kB", $size / 1KB)}
+    If     ($size -gt 1TB) {[string]::Format("{0:0.#} TB", $size / 1TB)}
+    ElseIf ($size -gt 1GB) {[string]::Format("{0:0.#} GB", $size / 1GB)}
+    ElseIf ($size -gt 1MB) {[string]::Format("{0:0.#} MB", $size / 1MB)}
+    ElseIf ($size -gt 1KB) {[string]::Format("{0:0.#} kB", $size / 1KB)}
     ElseIf ($size -ge 0)   {[string]::Format("{0:0} B", $size)}
     Else                   {""}
 }
