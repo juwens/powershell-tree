@@ -52,7 +52,7 @@ Function Format-FileSize() {
     ElseIf ($size -gt 1GB) {[string]::Format("{0:0.0} GB", $size / 1GB)}
     ElseIf ($size -gt 1MB) {[string]::Format("{0:0.0} MB", $size / 1MB)}
     ElseIf ($size -gt 1KB) {[string]::Format("{0:0.0} kB", $size / 1KB)}
-    ElseIf ($size -gt 0)   {[string]::Format("{0:0.0} B", $size)}
+    ElseIf ($size -ge 0)   {[string]::Format("{0:0.0} B", $size)}
     Else                   {""}
 }
 
