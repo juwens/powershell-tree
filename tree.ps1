@@ -23,7 +23,7 @@ function Out-Children {
     for ($i = 0; $i -lt $items.Count; $i++) {
         $item = $items[$i]
         $name = (Get-Item -LiteralPath $item).Name
-        $prefix = $Prefix
+
         $isLastItem = $i -eq ($items.Count - 1)
 
         $inifix = "+--"
@@ -38,7 +38,7 @@ function Out-Children {
             $childPrefix = "$Prefix" + ($isLastItem ? "    " : "|   ")
             Out-Children $item -Prefix $childPrefix -IsLastFolder $IsLastFolder
         } else {
-            Write-Host "$prefix" -NoNewline
+            Write-Host "$Prefix" -NoNewline
             Write-Host "$inifix" -NoNewline
             Write-Host " $name"  -NoNewline
             Write-Host " ($(Format-FileSize $item.length))"
